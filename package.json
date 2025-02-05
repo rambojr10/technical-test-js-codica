@@ -5,12 +5,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lint": "standard --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Andrés Valencia",
   "license": "ISC",
   "dependencies": {
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "standard": "^17.1.2"
+  },
+  "eslintConfig": {
+    "extends": ["./node_modules/standard/eslintrc.json"]
   }
 }

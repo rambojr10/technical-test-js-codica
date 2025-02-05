@@ -2,7 +2,7 @@ import { createInterface } from 'node:readline/promises'
 import { stdin as input, stdout as output } from 'node:process'
 import fetch from 'node-fetch'
 
-async function getData() {
+async function getData () {
   try {
     const request = await fetch(
       'https://api.freecurrencyapi.com/v1/latest?apikey=fca_live_nGVgpM36EsRFGqLsIRmhpgsxeQcGGKSRWfNGb3EJ'
@@ -21,7 +21,7 @@ async function getData() {
     return {
       data,
       coins,
-      rates,
+      rates
     }
   } catch (error) {
     console.error(error)
@@ -39,13 +39,13 @@ const getResult = ({ amount, from, to }) => {
 
 const defaultOptions = {
   from: 'USD',
-  to: 'EUR',
+  to: 'EUR'
 }
 const history = []
 
 const rl = createInterface({
   input,
-  output,
+  output
 })
 
 const menus = {
@@ -113,7 +113,7 @@ ${h.length ? h.join('\n') : 'No hay registros aún'}
 =========================
 1. Volver
 2. Salir
-Selección: `,
+Selección: `
 }
 
 let isClosed = false
