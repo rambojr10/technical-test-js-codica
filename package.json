@@ -12,10 +12,13 @@
   "author": "Andrés Valencia",
   "license": "ISC",
   "dependencies": {
+    "inquirer": "^12.4.1",
     "node-fetch": "^3.3.2",
     "standard": "^17.1.2"
   },
   "eslintConfig": {
-    "extends": ["./node_modules/standard/eslintrc.json"]
+    "extends": [
+      "./node_modules/standard/eslintrc.json"
+    ]
   }
 }
