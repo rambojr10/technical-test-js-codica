@@ -1,6 +1,6 @@
-import { getCoins, getRates, getList } from "./data.js"
-import { getResult } from "./converter.js"
-import { defaultOptions } from "./constants.js"
+import { getCoins, getRates } from './data.js'
+import { displayResult } from './result.js'
+import { defaultOptions, historyStorage } from './constants.js'
 import {
   homePrompt,
   coinsPrompt,
@@ -8,45 +8,48 @@ import {
   fromPrompt,
   toPrompt,
   converterPrompt,
-  historyPrompt,
-} from "./prompts.js"
+  historyPrompt
+} from './prompts.js'
 
-async function App({ from = defaultOptions.from, to = defaultOptions.to } = {},) {
+async function App ({
+  from = defaultOptions.from,
+  to = defaultOptions.to,
+  history = historyStorage
+} = {}) {
   const coins = await getCoins()
   const rates = await getRates()
-  const history = []
 
   console.clear()
   let isClosed = false
   const { answerHome } = await homePrompt({ from, to })
 
   //
-  if (answerHome === "Lista de monedas") {
+  if (answerHome === 'Lista de monedas') {
     console.clear()
 
     const { answerCoins } = await coinsPrompt({ coins })
-    if (answerCoins === "Volver") {
+    if (answerCoins === 'Volver') {
       App()
     }
-    if (answerCoins === "Salir") {
+    if (answerCoins === 'Salir') {
       isClosed = true
     }
   }
 
   //
-  if (answerHome === "Tasas de cambio") {
+  if (answerHome === 'Tasas de cambio') {
     console.clear()
 
     const { answerRates } = await ratesPrompt({ rates })
-    if (answerRates === "Volver") {
+    if (answerRates === 'Volver') {
       App()
     }
-    if (answerRates === "Salir") {
+    if (answerRates === 'Salir') {
       isClosed = true
     }
   }
 
-  // 
+  //
   if (answerHome === "Cambiar 'DE'") {
     console.clear()
 
@@ -55,10 +58,10 @@ async function App({ from = defaultOptions.from, to = defaultOptions.to } = {},)
       defaultOptions.from = answerFrom
       App()
     }
-    if (answerFrom === "Volver") {
+    if (answerFrom === 'Volver') {
       App()
     }
-    if (answerFrom === "Salir") {
+    if (answerFrom === 'Salir') {
       isClosed = true
     }
   }
@@ -72,17 +75,47 @@ async function App({ from = defaultOptions.from, to = defaultOptions.to } = {},)
       defaultOptions.to = answerTo
       App()
     }
-    if (answerTo === "Volver") {
+    if (answerTo === 'Volver') {
       App()
     }
-    if (answerTo === "Salir") {
+    if (answerTo === 'Salir') {
       isClosed = true
     }
   }
 
+  //
+  if (answerHome === 'Conversor') {
+    console.clear()
+
+    const { answerConverter: amount } = await converterPrompt({ from, to })
+    const message = await displayResult({ amount, from, to })
+
+    history.push(message)
+    App({ history })
+  }
+
+  //
+  if (answerHome === 'Historial') {
+    console.clear()
+
+    const { answerHistory } = await historyPrompt({ history })
+    if (answerHistory === 'Volver') {
+      App({ history })
+    }
+    if (answerHistory === 'Salir') {
+      isClosed = true
+    }
+  }
+
+  //
+  if (answerHome === 'Salir') {
+    isClosed = true
+  }
+
+  //
   if (isClosed) {
     console.clear()
-    console.log("Hasta luego!!!")
+    console.log('Hasta luego!!!')
     process.exit()
   }
 }

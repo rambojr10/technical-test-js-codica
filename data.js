@@ -1,10 +1,10 @@
 import fetch from 'node-fetch'
-import { API_KEY } from './constants.js'
+import { API_URL, API_KEY } from './constants.js'
 
 export async function getData () {
   try {
     const request = await fetch(
-      `https://api.freecurrencyapi.com/v1/latest?apikey=${API_KEY}`
+      `${API_URL}${API_KEY}`
     )
     const { data } = await request.json()
 
@@ -29,11 +29,4 @@ export async function getRates () {
   }
 
   return rates
-}
-
-export async function getList () {
-  const coins = await getCoins()
-  const list = coins.map((coin, idx) => `${idx + 1}. ${coin}`)
-
-  return list
 }
