@@ -1,4 +1,4 @@
-import { getCoins, getRates } from './data.js'
+import { getData, getCoins, getRates } from './data.js'
 import { displayResult } from './result.js'
 import { defaultOptions, historyStorage } from './constants.js'
 import {
@@ -16,6 +16,7 @@ async function App ({
   to = defaultOptions.to,
   history = historyStorage
 } = {}) {
+  const data = await getData()
   const coins = await getCoins()
   const rates = await getRates()
 
@@ -88,7 +89,7 @@ async function App ({
     console.clear()
 
     const { answerConverter: amount } = await converterPrompt({ from, to })
-    const message = await displayResult({ amount, from, to })
+    const message = await displayResult({ amount, from, to, data })
 
     history.push(message)
     App({ history })
