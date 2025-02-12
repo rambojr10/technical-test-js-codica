@@ -5,7 +5,7 @@ import { calculateResult, displayResult } from '../result.js'
 const data = { USD: 1, EUR: 0.90, GBP: 0.86, AUD: 1.59 }
 
 test('calculateResult should calculate the correct result when converting from default currencies', async () => {
-  const result = await calculateResult({ amount: 100, from: 'USD', to: 'EUR', data})
+  const result = await calculateResult({ amount: 100, from: 'USD', to: 'EUR', data })
   strictEqual(result, 90)
 })
 
